@@ -1,0 +1,76 @@
+# Environments & Secrets
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Generated secret key (regenerating it signs every user out)
+data/.secret_key
+
+# Node / Frontend
+node_modules/
+dist/
+.next/
+out/
+build/
+.npm
+*.log
+
+# Model Weights & Embeddings Cache
+models/*
+!models/.gitkeep
+checkpoints/
+.cache/
+huggingface/
+.huggingface/
+.hf/
+nltk_data/
+
+# Databases & vector stores
+chroma_db/
+*.chroma
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+data/shikshak.db*
+
+# User data: uploads, rendered media, dev email outbox
+data/storage/*
+!data/storage/.gitkeep
+data/media/*
+!data/media/.gitkeep
+data/outbox/
+data/avatar_voice_test_media/
+
+# Generated media
+output/
+rendered_videos/
+temp_audio/
+*.mp4
+*.webm
+*.wav
+*.mp3
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+modules/*/tests/web_test/logs/*/*.json
+modules/*/tests/web_test/logs/*/*.log
+!modules/*/tests/web_test/logs/*/.gitkeep
+
+# IDE & OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.tar
+*.tar.gz
+*.zip

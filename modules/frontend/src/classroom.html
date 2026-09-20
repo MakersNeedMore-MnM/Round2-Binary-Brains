@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Classroom — Shikshak AI</title>
+<meta name="description" content="Your live adaptive lesson.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='3.5' fill='%232A3FA0'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body class="classroom-body">
+
+<header class="app-header">
+  <a class="brand" href="/dashboard.html">
+    <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M7 16C7 11.03 11.03 7 16 7" stroke="var(--indigo-600)" stroke-width="3" stroke-linecap="round"/>
+      <path d="M25 16C25 20.97 20.97 25 16 25" stroke="var(--teal-600)" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="16" cy="16" r="3.5" fill="var(--indigo-600)"/>
+    </svg>
+    <span>Shikshak<span class="ai">AI</span></span>
+  </a>
+
+  <span class="badge badge-accent" id="lesson-title" style="margin-left:var(--sp-3);max-width:32vw;overflow:hidden;text-overflow:ellipsis">Loading…</span>
+
+  <div class="header-actions">
+    <span class="badge badge-accent" id="stage-status">
+      <span class="dot dot-pulse"></span> <span id="status-text">Starting</span>
+    </span>
+    <span class="badge" id="connection-badge"><span class="dot dot-pulse"></span> Connecting</span>
+    <a class="btn btn-secondary btn-sm" href="/dashboard.html">Leave</a>
+  </div>
+</header>
+
+<div class="classroom">
+
+  <!-- Curriculum -->
+  <aside class="curriculum" aria-label="Lesson concepts">
+    <div class="curriculum-head">
+      <div class="row-between" style="margin-bottom:var(--sp-2)">
+        <span class="section-label">Curriculum</span>
+        <span class="subtle" id="progress-label">0 / 0</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-bar" style="width:0%"></div></div>
+    </div>
+    <div class="curriculum-list" id="node-list">
+      <div class="skeleton" style="height:52px;margin:var(--sp-2)"></div>
+      <div class="skeleton" style="height:52px;margin:var(--sp-2)"></div>
+      <div class="skeleton" style="height:52px;margin:var(--sp-2)"></div>
+    </div>
+  </aside>
+
+  <!-- Stage -->
+  <main class="stage" id="stage">
+
+    <div class="stage-video">
+      <video id="video" playsinline controls preload="auto" hidden></video>
+
+      <div class="stage-overlay" id="overlay">
+        <div class="thinking-orb"></div>
+        <h3 id="overlay-title">Getting your classroom ready…</h3>
+        <p id="overlay-body">Connecting to your lesson.</p>
+      </div>
+    </div>
+
+    <div class="stage-caption" id="caption">
+      <span class="subtle">The teacher's script will appear here as each concept is taught.</span>
+    </div>
+
+    <!-- Chapter notes for the concept being taught -->
+    <section class="card card-pad" id="chapter-notes" hidden style="margin-top:var(--sp-4)">
+      <div class="row-between row-wrap" style="align-items:baseline;gap:var(--sp-2)">
+        <h3 id="notes-concept" style="margin:0;font-size:var(--text-lg)"></h3>
+        <span>
+          <span class="badge" id="notes-depth" hidden></span>
+          <span class="badge" id="notes-minutes" hidden></span>
+        </span>
+      </div>
+      <div id="notes-formula" hidden
+           style="margin-top:var(--sp-3);padding:var(--sp-3);border-radius:8px;
+                  background:var(--panel-alt,#1A2540);text-align:center;font-size:1.25rem"></div>
+      <div class="section-label" style="margin-top:var(--sp-4)">Key points</div>
+      <ul id="notes-points" style="margin:6px 0 0;padding-left:1.1rem;line-height:1.7"></ul>
+      <div id="notes-example-wrap" hidden>
+        <div class="section-label" style="margin-top:var(--sp-4)">Example</div>
+        <p id="notes-example" style="margin:6px 0 0;line-height:1.7"></p>
+      </div>
+      <details style="margin-top:var(--sp-4)">
+        <summary style="cursor:pointer;font-size:var(--text-sm);font-weight:600">Full transcript</summary>
+        <p id="notes-transcript" style="margin-top:var(--sp-3);line-height:1.7;font-size:var(--text-sm)"></p>
+      </details>
+    </section>
+
+    <div class="stage-panels">
+
+      <!-- Checkpoint question -->
+      <section class="checkpoint" id="checkpoint" hidden aria-live="polite">
+        <div class="checkpoint-head">
+          <span class="badge badge-accent" id="checkpoint-kind">Checkpoint</span>
+          <p class="checkpoint-question" id="question-text"></p>
+        </div>
+        <div class="checkpoint-body">
+          <div id="options"></div>
+          <div class="field" id="free-answer" hidden style="margin-top:0">
+            <label class="label" for="answer-input">Your answer, in your own words</label>
+            <textarea class="textarea" id="answer-input" rows="3"
+                      placeholder="Explain it the way you'd tell a friend…"></textarea>
+          </div>
+          <div class="row-between row-wrap" style="margin-top:var(--sp-4)">
+            <span class="subtle" id="answer-hint">There's no penalty for getting it wrong — that's how the lesson adapts.</span>
+            <button class="btn btn-primary" id="submit-answer" type="button" disabled>Submit answer</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Grading feedback -->
+      <div class="feedback" id="feedback" hidden></div>
+
+      <!-- Citation -->
+      <section class="card card-pad" id="citation" hidden>
+        <div class="section-label" style="margin-bottom:6px">From your material</div>
+        <p id="citation-text" style="font-size:var(--text-sm);line-height:1.6"></p>
+      </section>
+
+      <!-- Live event log -->
+      <details class="card card-pad">
+        <summary style="cursor:pointer;font-size:var(--text-sm);font-weight:600">Live teaching log</summary>
+        <div class="event-log" id="event-log" style="margin-top:var(--sp-3)"></div>
+      </details>
+
+    </div>
+  </main>
+</div>
+
+<script type="module" src="/js/pages/classroom.js"></script>
+</body>
+</html>
