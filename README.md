@@ -128,6 +128,9 @@ There is a critical need for an automated system that bridges this gap: an educa
 
 ## Screenshots / Demo
 
+### Live Demo
+**[Live Demo for Shikshak AI](https://shikshak-ai.onrender.com/)**
+
 ### Demo Materials
 **[Access the Demo Video and Materials via Google Drive](https://drive.google.com/drive/folders/1ibsr1tZanhtruCBbIwiGkAy0mXx35XLY?usp=drive_link)**
 
